@@ -79,7 +79,7 @@
           <article class="interest-card">
             <span class="card-number">[ 01 ]</span>
             <h3>SLG</h3>
-            <p>策略游戏与系统设计</p>
+            <p>策略游戏与战争博弈</p>
           </article>
           <article class="interest-card">
             <span class="card-number">[ 02 ]</span>
@@ -113,5 +113,19 @@
       <span>© 2026 Compiling Space</span>
       <a href="mailto:damingbhu@163.com">damingbhu@163.com ↗</a>
     </footer>
+    <script>
+  const menu = document.querySelector(".more-menu");
+
+  if (menu) {
+    menu.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") menu.open = true;
+    });
+
+    menu.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "mouse") menu.open = false;
+    });
+  }
+</script>
+
   </body>
 </html>
