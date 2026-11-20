@@ -6,7 +6,7 @@
     <meta name="description" content="Compiling Space：北华大学软件工程学生的个人空间，关注 SLG、嵌入式与边缘 AI。" />
     <meta name="theme-color" content="#101722" />
     <title>Compiling Space — 个人空间</title>
-    <link rel="stylesheet" href="../styles.css?v=3" />
+    <link rel="stylesheet" href="../styles.css?v=4" />
 
   </head>
   <body>
@@ -16,15 +16,18 @@
         <span>COMPILING SPACE</span>
       </a>
       <nav class="site-nav" aria-label="主导航">
-  <details class="more-menu">
-    <summary>更多 <span aria-hidden="true">⌄</span></summary>
-    <div class="more-menu-panel">
-      <a href="#about">关于</a>
-      <a href="mailto:damingbhu@163.com">联系</a>
-    </div>
-  </details>
-  <a class="language-switch" href="../en/" lang="en">EN ↗</a>
-</nav>
+        <details class="more-menu">
+          <summary aria-label="打开更多导航">
+            更多
+            <span aria-hidden="true">⌄</span>
+          </summary>
+          <div class="more-menu-panel">
+            <a href="#about">关于</a>
+            <a href="mailto:damingbhu@163.com">联系</a>
+          </div>
+        </details>
+        <a class="language-switch" href="../en/" lang="en">EN ↗</a>
+      </nav>
 
     </header>
 
@@ -114,18 +117,36 @@
       <a href="mailto:damingbhu@163.com">damingbhu@163.com ↗</a>
     </footer>
     <script>
-  const menu = document.querySelector(".more-menu");
+      (function () {
+        var menu = document.querySelector(".more-menu");
+        if (!menu) return;
 
-  if (menu) {
-    menu.addEventListener("pointerenter", (event) => {
-      if (event.pointerType === "mouse") menu.open = true;
-    });
+        var summary = menu.querySelector("summary");
 
-    menu.addEventListener("pointerleave", (event) => {
-      if (event.pointerType === "mouse") menu.open = false;
-    });
-  }
-</script>
+        menu.addEventListener("pointerenter", function (event) {
+          if (event.pointerType === "mouse") menu.open = true;
+        });
+
+        menu.addEventListener("pointerleave", function (event) {
+          if (event.pointerType === "mouse") menu.open = false;
+        });
+
+        document.addEventListener("pointerdown", function (event) {
+          if (!menu.contains(event.target)) menu.open = false;
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && menu.open) {
+            menu.open = false;
+            summary.focus();
+          }
+        });
+
+        menu.addEventListener("click", function (event) {
+          if (event.target.closest(".more-menu-panel a")) menu.open = false;
+        });
+      })();
+    </script>
 
   </body>
 </html>

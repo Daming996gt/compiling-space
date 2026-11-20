@@ -9,7 +9,7 @@
     />
     <meta name="theme-color" content="#101722" />
     <title>Compiling Space — A Personal Space</title>
-    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../styles.css?v=4" />
   </head>
 
   <body>
@@ -19,8 +19,16 @@
         <span>COMPILING SPACE</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="#about">About</a>
-        <a href="mailto:damingbhu@163.com">Contact</a>
+        <details class="more-menu">
+          <summary aria-label="Open more navigation">
+            More
+            <span aria-hidden="true">⌄</span>
+          </summary>
+          <div class="more-menu-panel">
+            <a href="#about">About</a>
+            <a href="mailto:damingbhu@163.com">Contact</a>
+          </div>
+        </details>
         <a class="language-switch" href="../zh/" lang="zh-CN">中 ↗</a>
       </nav>
     </header>
@@ -115,5 +123,36 @@
       <span>© 2026 Compiling Space</span>
       <a href="mailto:damingbhu@163.com">damingbhu@163.com ↗</a>
     </footer>
+    <script>
+      (function () {
+        var menu = document.querySelector(".more-menu");
+        if (!menu) return;
+
+        var summary = menu.querySelector("summary");
+
+        menu.addEventListener("pointerenter", function (event) {
+          if (event.pointerType === "mouse") menu.open = true;
+        });
+
+        menu.addEventListener("pointerleave", function (event) {
+          if (event.pointerType === "mouse") menu.open = false;
+        });
+
+        document.addEventListener("pointerdown", function (event) {
+          if (!menu.contains(event.target)) menu.open = false;
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && menu.open) {
+            menu.open = false;
+            summary.focus();
+          }
+        });
+
+        menu.addEventListener("click", function (event) {
+          if (event.target.closest(".more-menu-panel a")) menu.open = false;
+        });
+      })();
+    </script>
   </body>
 </html>
