@@ -1,0 +1,11 @@
+{
+  "posts": [
+    {
+      "slug": "first-note",
+      "title": "用 Markdown 写第一篇笔记",
+      "date": "2026-11-20",
+      "summary": "笔记放在哪、元数据怎么填、支持哪些 Markdown 语法，以及发布一篇新笔记的完整步骤。",
+      "file": "post/first-note.md"
+    }
+  ]
+}

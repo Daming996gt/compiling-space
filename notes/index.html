@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Compiling Space 笔记：学习记录、踩坑与思考，按时间倒序排列。" />
+    <meta name="theme-color" content="#101722" />
+    <title>笔记 — Compiling Space</title>
+    <link rel="stylesheet" href="../styles.css?v=5" />
+  </head>
+
+  <body>
+    <header class="site-header container">
+      <a class="brand" href="../zh/" aria-label="Compiling Space 首页">
+        <span class="brand-mark" aria-hidden="true">C_</span>
+        <span>COMPILING SPACE</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <details class="more-menu">
+          <summary aria-label="打开更多导航">
+            更多
+            <span aria-hidden="true">⌄</span>
+          </summary>
+          <div class="more-menu-panel">
+            <a href="./" aria-current="page">笔记</a>
+            <a href="../zh/#about">关于</a>
+            <a href="mailto:damingbhu@163.com">联系</a>
+          </div>
+        </details>
+        <a class="language-switch" href="../en/" lang="en">EN ↗</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="notes-hero">
+        <div class="eyebrow">NOTES · 学习笔记</div>
+        <h1>笔记</h1>
+        <p class="notes-lead">学习记录、踩坑与思考，按时间从新到旧排列。</p>
+      </section>
+
+      <section class="notes-section" aria-label="笔记列表">
+        <ul class="notes-list" id="notes-list"></ul>
+        <p class="notes-status" id="notes-status">正在加载笔记……</p>
+        <noscript>
+          <p class="notes-status">需要启用 JavaScript 才能显示笔记列表。</p>
+        </noscript>
+      </section>
+    </main>
+
+    <footer class="site-footer container">
+      <span>© 2026 Compiling Space</span>
+      <a href="mailto:damingbhu@163.com">damingbhu@163.com ↗</a>
+    </footer>
+
+    <script src="../assets/site.js"></script>
+    <script>
+      (function () {
+        var list = document.getElementById("notes-list");
+        var status = document.getElementById("notes-status");
+
+        fetch("notes.json", { cache: "no-cache" })
+          .then(function (response) {
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response.json();
+          })
+          .then(function (data) {
+            var posts = (data && data.posts ? data.posts : []).slice();
+
+            posts.sort(function (a, b) {
+              return String(b.date).localeCompare(String(a.date));
+            });
+
+            if (!posts.length) {
+              status.textContent = "还没有笔记，去写第一篇吧。";
+              return;
+            }
+
+            posts.forEach(function (post) {
+              var item = document.createElement("li");
+              var link = document.createElement("a");
+              link.className = "note-card";
+              link.href = "note.html?post=" + encodeURIComponent(post.slug);
+
+              var date = document.createElement("span");
+              date.className = "note-date";
+              date.textContent = post.date;
+
+              var title = document.createElement("h2");
+              title.textContent = post.title;
+
+              link.append(date, title);
+
+              if (post.summary) {
+                var summary = document.createElement("p");
+                summary.textContent = post.summary;
+                link.append(summary);
+              }
+
+              item.append(link);
+              list.append(item);
+            });
+
+            status.hidden = true;
+          })
+          .catch(function (error) {
+            status.textContent = "笔记列表加载失败（" + error.message + "）。请通过 GitHub Pages 或本地服务器访问本页。";
+          });
+      })();
+    </script>
+  </body>
+</html>

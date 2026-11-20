@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Compiling Space 笔记详情。" />
+    <meta name="theme-color" content="#101722" />
+    <title>笔记 — Compiling Space</title>
+    <link rel="stylesheet" href="../styles.css?v=5" />
+  </head>
+
+  <body>
+    <header class="site-header container">
+      <a class="brand" href="../zh/" aria-label="Compiling Space 首页">
+        <span class="brand-mark" aria-hidden="true">C_</span>
+        <span>COMPILING SPACE</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <details class="more-menu">
+          <summary aria-label="打开更多导航">
+            更多
+            <span aria-hidden="true">⌄</span>
+          </summary>
+          <div class="more-menu-panel">
+            <a href="./">笔记</a>
+            <a href="../zh/#about">关于</a>
+            <a href="mailto:damingbhu@163.com">联系</a>
+          </div>
+        </details>
+        <a class="language-switch" href="../en/" lang="en">EN ↗</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="note-page">
+        <a class="note-back" href="./">← 返回笔记列表</a>
+        <p class="note-meta" id="note-meta" hidden></p>
+        <article class="note-body" id="note-body"></article>
+        <p class="notes-status" id="note-status">正在加载笔记……</p>
+        <noscript>
+          <p class="notes-status">需要启用 JavaScript 才能阅读笔记。</p>
+        </noscript>
+      </section>
+    </main>
+
+    <footer class="site-footer container">
+      <span>© 2026 Compiling Space</span>
+      <a href="mailto:damingbhu@163.com">damingbhu@163.com ↗</a>
+    </footer>
+
+    <script src="../assets/marked.min.js"></script>
+    <script src="../assets/site.js"></script>
+    <script>
+      (function () {
+        var slug = new URLSearchParams(location.search).get("post");
+        var body = document.getElementById("note-body");
+        var meta = document.getElementById("note-meta");
+        var status = document.getElementById("note-status");
+
+        function fail(message) {
+          body.textContent = "";
+          status.textContent = message;
+          var back = document.createElement("a");
+          back.href = "./";
+          back.textContent = " 返回笔记列表 →";
+          status.append(back);
+        }
+
+        function absolutize(html, baseDir) {
+          var template = document.createElement("template");
+          template.innerHTML = html;
+          var nodes = template.content.querySelectorAll("img[src], a[href]");
+
+          Array.prototype.forEach.call(nodes, function (el) {
+            var attr = el.tagName === "IMG" ? "src" : "href";
+            var value = el.getAttribute(attr);
+            if (!value || /^([a-z][a-z0-9+.-]*:|\/\/|#|\/)/i.test(value)) return;
+            el.setAttribute(attr, baseDir + value);
+          });
+
+          return template.innerHTML;
+        }
+
+        if (!slug) {
+          fail("没有指定要阅读的笔记。");
+          return;
+        }
+
+        if (typeof marked === "undefined") {
+          fail("Markdown 渲染库加载失败，请刷新重试。");
+          return;
+        }
+
+        marked.setOptions({ gfm: true, breaks: false });
+
+        fetch("notes.json", { cache: "no-cache" })
+          .then(function (response) {
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            return response.json();
+          })
+          .then(function (data) {
+            var post = null;
+            (data.posts || []).forEach(function (item) {
+              if (item.slug === slug) post = item;
+            });
+
+            if (!post) throw new Error("找不到这篇笔记");
+
+            document.title = post.title + " — Compiling Space";
+            meta.textContent = post.date;
+
+            return fetch(post.file, { cache: "no-cache" })
+              .then(function (response) {
+                if (!response.ok) throw new Error("HTTP " + response.status);
+                return response.text();
+              })
+              .then(function (text) {
+                var baseDir = post.file.replace(/[^/]*$/, "");
+                body.innerHTML = absolutize(marked.parse(text), baseDir);
+
+                if (!body.querySelector("h1")) {
+                  var heading = document.createElement("h1");
+                  heading.textContent = post.title;
+                  body.insertBefore(heading, body.firstChild);
+                }
+
+                meta.hidden = false;
+                status.hidden = true;
+              });
+          })
+          .catch(function (error) {
+            fail("笔记加载失败：" + error.message + "。");
+          });
+      })();
+    </script>
+  </body>
+</html>
