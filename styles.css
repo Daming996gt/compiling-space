@@ -184,3 +184,24 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
   .language-switch { padding-left: 12px; }
   .section { padding: 50px 0; }
 }
+/* 首页人物图片：同时作用于中文和英文页面 */
+.orbit-panel::before {
+  content: "";
+  position: absolute;
+  inset: 14px 14px 54px;
+  border-radius: 12px;
+  background: url("naiwa.jpg") center / contain no-repeat;
+}
+
+.orbit-panel .orbit,
+.orbit-panel .orbit-center {
+  display: none;
+}
+
+.orbit-caption {
+  z-index: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(16, 23, 34, 0.8);
+}
+
