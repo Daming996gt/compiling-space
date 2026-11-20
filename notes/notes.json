@@ -11,7 +11,7 @@
       "slug": "serial-basics",
       "title": "串行通信基础",
       "date": "2026-11-20",
-      "summary": "并行与串行、同步与异步、波特率与校验方式，以及 51 单片机 SBUF、SCON、PCON 的用法。",
+      "summary": "并行与串行、同步与异步、波特率与校验方式，以及 51 单片机 SBUF、SCON和PCON 的用法。",
       "file": "post/串行通信.md"
     }
   ]
