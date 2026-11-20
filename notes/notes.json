@@ -6,6 +6,13 @@
       "date": "2026-11-20",
       "summary": "笔记放在哪、元数据怎么填、支持哪些 Markdown 语法，以及发布一篇新笔记的完整步骤。",
       "file": "post/first-note.md"
+    },
+    {
+      "slug": "serial-basics",
+      "title": "串行通信基础",
+      "date": "2026-11-20",
+      "summary": "并行与串行、同步与异步、波特率与校验方式，以及 51 单片机 SBUF、SCON、PCON 的用法。",
+      "file": "post/串行通信.md"
     }
   ]
 }
