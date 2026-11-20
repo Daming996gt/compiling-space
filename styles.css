@@ -326,11 +326,26 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .note-back {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
   color: var(--muted);
   font-size: .9rem;
 }
-.note-back:hover, .note-back:focus-visible { color: var(--accent); }
+.note-back:hover, .note-back:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.note-foot {
+  max-width: 760px;
+  margin-top: 46px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
 
 .note-meta {
   margin: 6px 0 30px;

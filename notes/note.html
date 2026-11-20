@@ -6,7 +6,7 @@
     <meta name="description" content="Compiling Space 笔记详情。" />
     <meta name="theme-color" content="#101722" />
     <title>笔记 — Compiling Space</title>
-    <link rel="stylesheet" href="../styles.css?v=5" />
+    <link rel="stylesheet" href="../styles.css?v=6" />
   </head>
 
   <body>
@@ -22,7 +22,7 @@
             <span aria-hidden="true">⌄</span>
           </summary>
           <div class="more-menu-panel">
-            <a href="./">笔记</a>
+            <a href="../zh/">返回主页</a>
             <a href="../zh/#about">关于</a>
             <a href="mailto:damingbhu@163.com">联系</a>
           </div>
@@ -37,6 +37,9 @@
         <p class="note-meta" id="note-meta" hidden></p>
         <article class="note-body" id="note-body"></article>
         <p class="notes-status" id="note-status">正在加载笔记……</p>
+        <div class="note-foot" id="note-foot" hidden>
+          <a class="note-back" href="./">← 返回笔记列表</a>
+        </div>
         <noscript>
           <p class="notes-status">需要启用 JavaScript 才能阅读笔记。</p>
         </noscript>
@@ -126,6 +129,7 @@
 
                 meta.hidden = false;
                 status.hidden = true;
+                document.getElementById("note-foot").hidden = false;
               });
           })
           .catch(function (error) {
